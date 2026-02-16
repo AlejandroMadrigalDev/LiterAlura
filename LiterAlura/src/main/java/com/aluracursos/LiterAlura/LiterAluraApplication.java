@@ -1,6 +1,7 @@
 package com.aluracursos.LiterAlura;
 
 import com.aluracursos.LiterAlura.main.Menu;
+import com.aluracursos.LiterAlura.main.Principal;
 import com.aluracursos.LiterAlura.repository.LibroRepository;
 import com.sun.tools.javac.Main;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class LiterAluraApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Main main = new Main(repository);
-		main.muestraMenu();
+		Principal principal = new Principal();
+		principal.muestraMenuPrincipal();
 	}
 }

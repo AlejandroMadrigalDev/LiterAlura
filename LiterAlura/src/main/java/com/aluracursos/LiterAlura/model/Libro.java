@@ -1,13 +1,21 @@
 package com.aluracursos.LiterAlura.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import jakarta.persistence.*;
 
+import java.util.List;
+
+@Entity
+@Table(name = "libros")
 public class Libro {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titloDelLibro;
-    private Autor autores;
     private String idiomas;
     private Integer cantidadDescargas;
+    @ManyToOne
+    private Autor autores;
 
     public Libro(Long id, String titloDelLibro, Autor autores, String idiomas, Integer cantidadDescargas) {
         this.id = id;
