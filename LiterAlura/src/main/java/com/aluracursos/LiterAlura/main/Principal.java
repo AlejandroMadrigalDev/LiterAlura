@@ -1,5 +1,6 @@
 package com.aluracursos.LiterAlura.main;
 
+import com.aluracursos.LiterAlura.model.DatosLibro;
 import com.aluracursos.LiterAlura.model.Libro;
 import com.aluracursos.LiterAlura.repository.LibroRepository;
 import com.aluracursos.LiterAlura.service.ConsumoAPI;
@@ -16,8 +17,31 @@ public class Principal {
     ConvierteDatos conversor = new ConvierteDatos();
     private LibroRepository repositorio;
     private List<Libro> libros;
+    Menu menuPrincipal = new Menu();
 
-    public void muestraMenuPrincipal(){
-        System.out.println("Llmando al menu menu menu menu!!!!!!!!!!!!");
+    public void muestraMenuPrincipal() {
+        var opcion = -1;
+        while (opcion != 0) {
+            menuPrincipal.mostrarMenu();
+            opcion = teclado.nextInt();
+            teclado.nextLine();
+            switch (opcion) {
+                case 1:
+                    mostrarLibros();
+                    break;
+                case 0:
+                    System.out.println("Cerrando la aplicacion...");
+                    break;
+                default:
+                    System.out.println("Opcion no valida.");
+            }
+        }
+    }
+
+    private void mostrarLibros() {
+        var json = consumoApi.obtenerDatos(URL_BASE + "84/");
+        System.out.println(json);
+        DatosLibro datos = conversor.obtenerDatos(json, DatosLibro.class);
+        System.out.println(datos);
     }
 }

@@ -11,15 +11,15 @@ public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String titloDelLibro;
-    private String idiomas;
-    private Integer cantidadDescargas;
+    private String tituloDelLibro;
     @ManyToOne
     private Autor autores;
+    private String idiomas;
+    private Integer cantidadDescargas;
 
     public Libro(Long id, String titloDelLibro, Autor autores, String idiomas, Integer cantidadDescargas) {
         this.id = id;
-        this.titloDelLibro = titloDelLibro;
+        this.tituloDelLibro = titloDelLibro;
         this.autores = autores;
         this.idiomas = idiomas;
         this.cantidadDescargas = cantidadDescargas;
@@ -34,11 +34,11 @@ public class Libro {
     }
 
     public String getTitloDelLibro() {
-        return titloDelLibro;
+        return tituloDelLibro;
     }
 
     public void setTitloDelLibro(String titloDelLibro) {
-        this.titloDelLibro = titloDelLibro;
+        this.tituloDelLibro = titloDelLibro;
     }
 
     public Autor getAutores() {
@@ -69,7 +69,7 @@ public class Libro {
     public String toString() {
         return "Libro{" +
                 "id=" + id +
-                ", titloDelLibro='" + titloDelLibro + '\'' +
+                ", tituloDelLibro='" + tituloDelLibro + '\'' +
                 ", autores=" + autores +
                 ", idiomas='" + idiomas + '\'' +
                 ", cantidadDescargas=" + cantidadDescargas +
