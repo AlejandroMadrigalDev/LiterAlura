@@ -9,17 +9,17 @@ public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String nombreAutor;
     private Integer fechaNacimiento;
     private Integer fechaMuerte;
-    private String nombreAutor;
     @ManyToOne
     private Libro libro;
 
     public Autor(Integer id, Integer fechaNacimiento, Integer fechaMuerte, String nombreAutor) {
         this.id = id;
+        this.nombreAutor = nombreAutor;
         this.fechaNacimiento = fechaNacimiento;
         this.fechaMuerte = fechaMuerte;
-        this.nombreAutor = nombreAutor;
     }
 
     public Integer getId() {
@@ -58,9 +58,9 @@ public class Autor {
     public String toString() {
         return "Autor{" +
                 "id=" + id +
+                ", nombreAutor='" + nombreAutor +
                 ", fechaNacimiento=" + fechaNacimiento +
-                ", fechaMuerte=" + fechaMuerte +
-                ", nombreAutor='" + nombreAutor + '\'' +
+                ", fechaMuerte=" + fechaMuerte + '\'' +
                 '}';
     }
 }

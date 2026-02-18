@@ -64,15 +64,4 @@ public class Libro {
     public void setCantidadDescargas(Integer cantidadDescargas) {
         this.cantidadDescargas = cantidadDescargas;
     }
-
-    @Override
-    public String toString() {
-        return "Libro{" +
-                "id=" + id +
-                ", tituloDelLibro='" + tituloDelLibro + '\'' +
-                ", autores=" + autores +
-                ", idiomas='" + idiomas + '\'' +
-                ", cantidadDescargas=" + cantidadDescargas +
-                '}';
-    }
 }

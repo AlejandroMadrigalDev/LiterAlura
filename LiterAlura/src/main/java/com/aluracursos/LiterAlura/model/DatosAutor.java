@@ -5,8 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record DatosAutor(
+    @JsonAlias("name") String nombreAutor,
     @JsonAlias("birth_year") Integer fechaNacimiento,
-    @JsonAlias("death_year") Integer fechaMuerte,
-    @JsonAlias("name") String nombreAutor
+    @JsonAlias("death_year") Integer fechaMuerte
 ) {
+    @Override
+    public String toString() {
+        return nombreAutor + " (" + fechaNacimiento + " - " + fechaMuerte + ")";
+    }
 }

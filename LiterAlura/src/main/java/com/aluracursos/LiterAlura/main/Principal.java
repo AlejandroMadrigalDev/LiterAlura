@@ -39,9 +39,8 @@ public class Principal {
     }
 
     private void mostrarLibros() {
-        var json = consumoApi.obtenerDatos(URL_BASE + "84/");
-        System.out.println(json);
-        DatosLibro datos = conversor.obtenerDatos(json, DatosLibro.class);
-        System.out.println(datos);
+        var json = consumoApi.obtenerDatos(URL_BASE + "1/");
+        DatosLibro datosLibro = conversor.obtenerDatos(json, DatosLibro.class);
+        System.out.println(datosLibro);
     }
 }
