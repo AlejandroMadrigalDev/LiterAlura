@@ -3,6 +3,8 @@ package com.aluracursos.LiterAlura.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "autores")
 public class Autor {
@@ -12,14 +14,22 @@ public class Autor {
     private String nombreAutor;
     private Integer fechaNacimiento;
     private Integer fechaMuerte;
-    @ManyToOne
-    private Libro libro;
+    @ManyToMany(mappedBy = "autores")
+    private List<Libro> libros;
 
-    public Autor(Integer id, Integer fechaNacimiento, Integer fechaMuerte, String nombreAutor) {
-        this.id = id;
-        this.nombreAutor = nombreAutor;
-        this.fechaNacimiento = fechaNacimiento;
-        this.fechaMuerte = fechaMuerte;
+    public List<Libro> getLibros() {
+        return libros;
+    }
+    public void setLibros(List<Libro> libros) {
+        this.libros = libros;
+    }
+
+    public Autor() {}
+
+    public Autor(DatosAutor datosAutor) {
+        this.nombreAutor = datosAutor.nombreAutor();
+        this.fechaNacimiento = datosAutor.fechaNacimiento();
+        this.fechaMuerte = datosAutor.fechaMuerte();
     }
 
     public Integer getId() {

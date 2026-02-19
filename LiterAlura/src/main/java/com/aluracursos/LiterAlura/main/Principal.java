@@ -7,19 +7,25 @@ import com.aluracursos.LiterAlura.repository.LibroRepository;
 import com.aluracursos.LiterAlura.service.ConsumoAPI;
 import com.aluracursos.LiterAlura.service.ConvierteDatos;
 import org.aspectj.apache.bcel.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+@Component
 public class Principal {
     Scanner teclado = new Scanner(System.in);
     ConsumoAPI consumoApi = new ConsumoAPI();
     private final String URL_BASE = "https://gutendex.com/books/";
     ConvierteDatos conversor = new ConvierteDatos();
-    private LibroRepository repositorio;
+    private final LibroRepository repositorio;
     private List<Libro> libros;
     Menu menuPrincipal = new Menu();
+
+    public Principal(LibroRepository repositorio) {
+        this.repositorio = repositorio;
+    }
 
     public void muestraMenuPrincipal() {
         var opcion = -1;
@@ -47,10 +53,14 @@ public class Principal {
         var datosConsultaLibro = conversor.obtenerDatos(json, DatosBiblioteca.class);
 
         Optional<DatosLibro> libroBuscado = datosConsultaLibro.resultados().stream()
+                .filter(l -> l.tituloDelLibro().toUpperCase().contains(nombreLibroBuscado.toUpperCase()))
                 .findFirst();
 
         if (libroBuscado.isPresent()) {
-            System.out.println("Libro encontrado: " + libroBuscado.get());
+            DatosLibro datos = libroBuscado.get();
+            Libro libroEncontrado = new Libro(datos);
+            repositorio.save(libroEncontrado);
+            System.out.println("Libro encontrado: " + datos);
         } else {
             System.out.println("Libro no encontrado.");
         }
