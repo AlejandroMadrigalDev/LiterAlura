@@ -18,13 +18,13 @@ public record DatosLibro(
         return """
                 ---------------- Libro ----------------""" + """
                 
-                Titulo del Libro:  """ + tituloDelLibro + """
+                - Titulo del Libro:  """ + tituloDelLibro + """
                 
-                Autor: """ + autores + """
+                - Autor: """ + autores + """
                 
-                Idioma: """ + idiomas + """
+                - Idioma: """ + idiomas + """
                 
-                Descargas: """ + cantidadDescargas + """
+                - Descargas: """ + cantidadDescargas + """
                 
                 ---------------------------------------""";
     }

@@ -1,5 +1,6 @@
 package com.aluracursos.LiterAlura.main;
 
+import com.aluracursos.LiterAlura.model.DatosBiblioteca;
 import com.aluracursos.LiterAlura.model.DatosLibro;
 import com.aluracursos.LiterAlura.model.Libro;
 import com.aluracursos.LiterAlura.repository.LibroRepository;
@@ -8,6 +9,7 @@ import com.aluracursos.LiterAlura.service.ConvierteDatos;
 import org.aspectj.apache.bcel.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Principal {
@@ -27,7 +29,7 @@ public class Principal {
             teclado.nextLine();
             switch (opcion) {
                 case 1:
-                    mostrarLibros();
+                    buscarLibro();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicacion...");
@@ -38,9 +40,19 @@ public class Principal {
         }
     }
 
-    private void mostrarLibros() {
-        var json = consumoApi.obtenerDatos(URL_BASE + "1/");
-        DatosLibro datosLibro = conversor.obtenerDatos(json, DatosLibro.class);
-        System.out.println(datosLibro);
+    private void buscarLibro() {
+        System.out.println("Escribe el nombre del libro que deseas buscar: ");
+        var nombreLibroBuscado = teclado.nextLine();
+        var json = consumoApi.obtenerDatos(URL_BASE + "?search=" + nombreLibroBuscado.replace(" ", "+"));
+        var datosConsultaLibro = conversor.obtenerDatos(json, DatosBiblioteca.class);
+
+        Optional<DatosLibro> libroBuscado = datosConsultaLibro.resultados().stream()
+                .findFirst();
+
+        if (libroBuscado.isPresent()) {
+            System.out.println("Libro encontrado: " + libroBuscado.get());
+        } else {
+            System.out.println("Libro no encontrado.");
+        }
     }
 }
