@@ -32,36 +32,47 @@ public class Principal {
     public void muestraMenuPrincipal() {
         var opcion = -1;
         while (opcion != 0) {
-            menuPrincipal.mostrarMenu();
-            opcion = teclado.nextInt();
-            teclado.nextLine();
-            switch (opcion) {
-                case 1:
-                    buscarLibro();
-                    break;
-                case 2:
-                    mostrarLibrosRegistradosEnBBDD();
-                    break;
-                case 3:
-                    mostrarAutoresRegistradosEnBBDD();
-                    break;
-                case 4:
-                    buscarAutoresPorFecha();
-                    break;
-                case 5:
-                    buscarLibrosPorIdioma();
-                    break;
-                case 6:
-                    mostrar10LibrosMasDescargados();
-                    break;
-                case 7:
-                    buscarAutoresPorNombre();
-                    break;
-                case 0:
-                    System.out.println("Cerrando la aplicacion...");
-                    break;
-                default:
-                    System.out.println("Opcion no valida.");
+            try {
+                menuPrincipal.mostrarMenu();
+                if (teclado.hasNextInt()) {
+                    opcion = teclado.nextInt();
+                    teclado.nextLine();
+                } else {
+                    throw new InputMismatchException();
+                }
+
+                switch (opcion) {
+                    case 1:
+                        buscarLibro();
+                        break;
+                    case 2:
+                        mostrarLibrosRegistradosEnBBDD();
+                        break;
+                    case 3:
+                        mostrarAutoresRegistradosEnBBDD();
+                        break;
+                    case 4:
+                        buscarAutoresPorFecha();
+                        break;
+                    case 5:
+                        buscarLibrosPorIdioma();
+                        break;
+                    case 6:
+                        mostrar10LibrosMasDescargados();
+                        break;
+                    case 7:
+                        buscarAutoresPorNombre();
+                        break;
+                    case 0:
+                        System.out.println("Cerrando la aplicacion...");
+                        break;
+                    default:
+                        System.out.println("Opcion no valida.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Debes ingresar un número entero.");
+                teclado.nextLine();
+                opcion = -1;
             }
         }
     }
