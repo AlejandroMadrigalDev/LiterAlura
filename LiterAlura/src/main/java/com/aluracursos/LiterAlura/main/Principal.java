@@ -9,10 +9,7 @@ import org.aspectj.apache.bcel.Repository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -53,6 +50,9 @@ public class Principal {
                     break;
                 case 5:
                     buscarLibrosPorIdioma();
+                    break;
+                case 6:
+                    mostrar10LibrosMasDescargados();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicacion...");
@@ -169,5 +169,17 @@ public class Principal {
             System.out.println("Por favor, ingresa un idioma de la lista.");
             teclado.nextLine();
         }
+    }
+
+    public void mostrar10LibrosMasDescargados() {
+        var json = consumoApi.obtenerDatos(URL_BASE);
+        var datosBiblioteca = conversor.obtenerDatos(json, DatosBiblioteca.class);
+
+        System.out.println("--- TOP 10 LIBROS MÁS DESCARGADOS ---");
+
+        datosBiblioteca.resultados().stream()
+                .sorted(Comparator.comparing(DatosLibro::cantidadDescargas).reversed())
+                .limit(10)
+                .forEach(System.out::println);
     }
 }

@@ -14,6 +14,8 @@ public class Menu {
                 3 - Mostrar autores registrados en la biblioteca.
                 4 - Mostrar autores vivos en un determinado año.
                 5 - Mostrar libros por idioma.
+                6 - Mostrar top 10 Libros mas descargados.
+                7 - Buscar autor por nombre.
                 
                 0 - Salir de la aplicacion
                 #################################################
