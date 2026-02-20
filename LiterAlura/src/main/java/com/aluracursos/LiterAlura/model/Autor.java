@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "autores")
@@ -67,11 +68,22 @@ public class Autor {
 
     @Override
     public String toString() {
-        return "Autor{" +
-                "id=" + id +
-                ", nombreAutor='" + nombreAutor +
-                ", fechaNacimiento=" + fechaNacimiento +
-                ", fechaMuerte=" + fechaMuerte + '\'' +
-                '}';
+        String nombresLibros = (libros != null)
+                ? libros.stream()
+                .map(Libro::getTituloDelLibro)
+                .collect(Collectors.joining(", "))
+                : "Sin libros registrados";
+
+        return String.format("""
+            ---------------- Datos del Autor ----------------
+            - Nombre del Autor:  %s
+            - Año de Nacimiento: %s
+            - Año de Muerte:     %s
+            - Libros escritos:   [%s]
+            -------------------------------------------------""",
+                nombreAutor,
+                (fechaNacimiento != null ? fechaNacimiento : "Sin registro"),
+                (fechaMuerte != null ? fechaMuerte : "Sin registro"),
+                nombresLibros);
     }
 }

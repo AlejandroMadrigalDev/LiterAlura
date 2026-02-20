@@ -22,6 +22,7 @@ public class Principal {
     private final LibroRepository repositorio;
     private final AutorRepository autorRepository;
     private List<Libro> libros;
+    private List<Autor> autores;
     Menu menuPrincipal = new Menu();
 
     public Principal(LibroRepository repositorio, AutorRepository autorRepository) {
@@ -41,6 +42,9 @@ public class Principal {
                     break;
                 case 2:
                     mostrarLibrosRegistradosEnBBDD();
+                    break;
+                case 3:
+                    mostrarAutoresRegistradosEnBBDD();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicacion...");
@@ -96,6 +100,16 @@ public class Principal {
             System.out.println("No hay libros registrados aún.");
         } else {
             libros.forEach(System.out::println);
+        }
+    }
+
+    public void mostrarAutoresRegistradosEnBBDD() {
+        var autores = autorRepository.buscarAutoresConLibros();
+
+        if (autores.isEmpty()) {
+            System.out.println("No hay autores registrados aún.");
+        } else {
+            autores.forEach(System.out::println);
         }
     }
 }
