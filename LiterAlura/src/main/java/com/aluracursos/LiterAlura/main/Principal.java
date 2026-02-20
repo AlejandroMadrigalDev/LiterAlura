@@ -1,8 +1,7 @@
 package com.aluracursos.LiterAlura.main;
 
-import com.aluracursos.LiterAlura.model.DatosBiblioteca;
-import com.aluracursos.LiterAlura.model.DatosLibro;
-import com.aluracursos.LiterAlura.model.Libro;
+import com.aluracursos.LiterAlura.model.*;
+import com.aluracursos.LiterAlura.repository.AutorRepository;
 import com.aluracursos.LiterAlura.repository.LibroRepository;
 import com.aluracursos.LiterAlura.service.ConsumoAPI;
 import com.aluracursos.LiterAlura.service.ConvierteDatos;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Component
 public class Principal {
@@ -20,11 +20,13 @@ public class Principal {
     private final String URL_BASE = "https://gutendex.com/books/";
     ConvierteDatos conversor = new ConvierteDatos();
     private final LibroRepository repositorio;
+    private final AutorRepository autorRepository;
     private List<Libro> libros;
     Menu menuPrincipal = new Menu();
 
-    public Principal(LibroRepository repositorio) {
+    public Principal(LibroRepository repositorio, AutorRepository autorRepository) {
         this.repositorio = repositorio;
+        this.autorRepository = autorRepository;
     }
 
     public void muestraMenuPrincipal() {
@@ -58,9 +60,27 @@ public class Principal {
 
         if (libroBuscado.isPresent()) {
             DatosLibro datos = libroBuscado.get();
+            Optional<Libro> libroExistente = repositorio.findByTituloDelLibroIgnoreCase(datos.tituloDelLibro());
+            if (libroExistente.isPresent()) {
+                System.out.println("El libro ya se encuentra registrado en la base de datos. No se puede volver a registrar.");
+                return;
+            }
             Libro libroEncontrado = new Libro(datos);
-            repositorio.save(libroEncontrado);
-            System.out.println("Libro encontrado: " + datos);
+
+            // Procesar autores profesionalmente
+            List<Autor> autoresFinales = datos.autores().stream()
+                    .map(datosAutor -> autorRepository.findByNombreAutorIgnoreCase(datosAutor.nombreAutor())
+                                .orElseGet(() -> autorRepository.save(new Autor(datosAutor))))
+                    .collect(Collectors.toList());
+
+            libroEncontrado.setAutores(autoresFinales);
+
+            try {
+                repositorio.save(libroEncontrado);
+                System.out.println("Libro encontrado y almacenado en la base de datos: " + datos);
+            } catch (Exception e) {
+                System.out.println("Error al guardar: " + e.getMessage());
+            }
         } else {
             System.out.println("Libro no encontrado.");
         }

@@ -16,7 +16,7 @@ public record DatosLibro(
     @Override
     public String toString() {
         return """
-                ---------------- Libro ----------------""" + """
+                ---------------- Datos del Libro ----------------""" + """
                 
                 - Titulo del Libro:  """ + tituloDelLibro + """
                 

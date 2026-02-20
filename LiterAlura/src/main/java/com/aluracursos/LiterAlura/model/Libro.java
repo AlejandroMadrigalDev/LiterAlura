@@ -3,6 +3,7 @@ package com.aluracursos.LiterAlura.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,14 +13,15 @@ public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String tituloDelLibro;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
-            name = "libro_autor",
+            name = "libros_autores",
             joinColumns = @JoinColumn(name = "libro_id"),
             inverseJoinColumns = @JoinColumn(name = "autor_id")
     )
-    private List<Autor> autores;
+    private List<Autor> autores = new ArrayList<>();
     private String idiomas;
     private Integer cantidadDescargas;
 
@@ -27,9 +29,7 @@ public class Libro {
 
     public Libro(DatosLibro datosLibro) {
         this.tituloDelLibro = datosLibro.tituloDelLibro();
-        this.autores = datosLibro.autores().stream()
-                .map(d -> new Autor(d))
-                .collect(Collectors.toList());
+        this.autores = new ArrayList<>();
         this.idiomas = String.join(", ", datosLibro.idiomas());
         this.cantidadDescargas = datosLibro.cantidadDescargas();
     }
