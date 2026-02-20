@@ -8,6 +8,7 @@ import com.aluracursos.LiterAlura.service.ConvierteDatos;
 import org.aspectj.apache.bcel.Repository;
 import org.springframework.stereotype.Component;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -45,6 +46,9 @@ public class Principal {
                     break;
                 case 3:
                     mostrarAutoresRegistradosEnBBDD();
+                    break;
+                case 4:
+                    buscarAutoresPorFecha();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicacion...");
@@ -110,6 +114,26 @@ public class Principal {
             System.out.println("No hay autores registrados aún.");
         } else {
             autores.forEach(System.out::println);
+        }
+    }
+
+    public void buscarAutoresPorFecha() {
+        System.out.println("Ingresa el año vivo del autor(es) que desea buscar: ");
+        try {
+            var fechaIngresada = teclado.nextInt();
+            teclado.nextLine();
+
+            List<Autor> autoresVivos = autorRepository.buscarAutoresPorFecha(fechaIngresada);
+
+            if (autoresVivos.isEmpty()) {
+                System.out.println("No se encontraron autores vivos en el año " + fechaIngresada);
+            } else {
+                System.out.println("--- Autores vivos en el año " + fechaIngresada + " ---");
+                autoresVivos.forEach(System.out::println);
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Por favor, ingresa un número de año válido.");
+            teclado.nextLine();
         }
     }
 }
