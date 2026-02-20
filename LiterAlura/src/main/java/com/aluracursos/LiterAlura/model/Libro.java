@@ -89,4 +89,19 @@ public class Libro {
                 
                 -------------------------------------------------""";
     }
+
+    public String informacionDetallada() {
+        String nombresAutores = autores.stream()
+                .map(Autor::getNombreAutor)
+                .collect(Collectors.joining(", "));
+
+        return String.format("""
+            ------- LIBRO ENCONTRADO -------
+            Título: %s
+            Autores: %s
+            Idioma: %s
+            Descargas: %d
+            --------------------------------""",
+                tituloDelLibro, nombresAutores, idiomas, cantidadDescargas);
+    }
 }

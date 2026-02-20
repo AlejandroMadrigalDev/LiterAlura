@@ -7,6 +7,7 @@ import com.aluracursos.LiterAlura.service.ConsumoAPI;
 import com.aluracursos.LiterAlura.service.ConvierteDatos;
 import org.aspectj.apache.bcel.Repository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -49,6 +50,9 @@ public class Principal {
                     break;
                 case 4:
                     buscarAutoresPorFecha();
+                    break;
+                case 5:
+                    buscarLibrosPorIdioma();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicacion...");
@@ -133,6 +137,36 @@ public class Principal {
             }
         } catch (InputMismatchException e) {
             System.out.println("Por favor, ingresa un número de año válido.");
+            teclado.nextLine();
+        }
+    }
+
+    public void buscarLibrosPorIdioma() {
+        System.out.println("Elija un idioma para buscar libros");
+        System.out.println("1. [en] - Inglés");
+        System.out.println("2. [es] - Español");
+        System.out.println("3. [fr] - Frances");
+        System.out.println("4. [pt] - Portugués");
+        try {
+            var opcion = teclado.nextLine();
+            String idioma = switch (opcion) {
+                case "1" -> "en";
+                case "2" -> "es";
+                case "3" -> "fr";
+                case "4" -> "pt";
+                default -> opcion;
+            };
+
+            List<Libro> librosPorIdioma = repositorio.buscarLibrosPorIdioma(idioma);
+
+            if (librosPorIdioma.isEmpty()) {
+                System.out.println("No se encontraron libros por este idioma " + idioma);
+            } else {
+                System.out.println("--- Libros registrados que se encuentran en el idioma " + idioma + " ---");
+                librosPorIdioma.forEach(l -> System.out.println(l.informacionDetallada()));
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Por favor, ingresa un idioma de la lista.");
             teclado.nextLine();
         }
     }
