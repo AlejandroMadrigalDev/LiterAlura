@@ -73,4 +73,20 @@ public class Libro {
     public void setAutores(List<Autor> autores) {
         this.autores = autores;
     }
+
+    @Override
+    public String toString() {
+        return """
+                ---------------- Datos del Libro ----------------""" + """
+                
+                - Titulo del Libro:  """ + tituloDelLibro + """
+                
+                - Autor: """ + autores + """
+                
+                - Idioma: """ + idiomas + """
+                
+                - Descargas: """ + cantidadDescargas + """
+                
+                -------------------------------------------------""";
+    }
 }

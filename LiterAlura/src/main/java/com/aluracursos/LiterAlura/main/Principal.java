@@ -39,6 +39,9 @@ public class Principal {
                 case 1:
                     buscarLibro();
                     break;
+                case 2:
+                    mostrarLibrosRegistradosEnBBDD();
+                    break;
                 case 0:
                     System.out.println("Cerrando la aplicacion...");
                     break;
@@ -77,12 +80,22 @@ public class Principal {
 
             try {
                 repositorio.save(libroEncontrado);
-                System.out.println("Libro encontrado y almacenado en la base de datos: " + datos);
+                System.out.println("Libro encontrado y almacenado: " + datos);
             } catch (Exception e) {
                 System.out.println("Error al guardar: " + e.getMessage());
             }
         } else {
             System.out.println("Libro no encontrado.");
+        }
+    }
+
+    public void mostrarLibrosRegistradosEnBBDD() {
+        libros = repositorio.findAll();
+
+        if (libros.isEmpty()) {
+            System.out.println("No hay libros registrados aún.");
+        } else {
+            libros.forEach(System.out::println);
         }
     }
 }
