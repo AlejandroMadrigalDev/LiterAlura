@@ -54,6 +54,9 @@ public class Principal {
                 case 6:
                     mostrar10LibrosMasDescargados();
                     break;
+                case 7:
+                    buscarAutoresPorNombre();
+                    break;
                 case 0:
                     System.out.println("Cerrando la aplicacion...");
                     break;
@@ -181,5 +184,18 @@ public class Principal {
                 .sorted(Comparator.comparing(DatosLibro::cantidadDescargas).reversed())
                 .limit(10)
                 .forEach(System.out::println);
+    }
+
+    public void buscarAutoresPorNombre() {
+        System.out.println("Ingresa el nombre del autor para buscar");
+        var nombreIngresado = teclado.nextLine();
+
+        List<Autor> autoresExistentes = autorRepository.buscarAutoresEnBBDD(nombreIngresado);
+        if (autoresExistentes.isEmpty()) {
+            System.out.println("No se encontró ningún autor con el nombre: " + nombreIngresado);
+        } else {
+            System.out.println("--- Autores encontrados ---");
+            autoresExistentes.forEach(System.out::println);
+        }
     }
 }

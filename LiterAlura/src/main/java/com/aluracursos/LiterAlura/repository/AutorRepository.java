@@ -17,4 +17,7 @@ public interface AutorRepository extends JpaRepository<Autor, Integer> {
 
     @Query("SELECT a FROM Autor a LEFT JOIN FETCH a.libros WHERE a.fechaNacimiento <= :fechaIngresada AND (a.fechaMuerte IS NULL OR a.fechaMuerte >= :fechaIngresada)")
     List<Autor> buscarAutoresPorFecha(@Param("fechaIngresada")Integer fechaIngresada);
+
+    @Query("SELECT a FROM Autor a LEFT JOIN FETCH a.libros WHERE a.nombreAutor ILIKE %:nombreIngresado%")
+    List<Autor> buscarAutoresEnBBDD(@Param("nombreIngresado")String nombreIngresado);
 }
